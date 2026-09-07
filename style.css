@@ -1,0 +1,416 @@
+/* ============================================================
+   PoojaSetu — Stylesheet
+   Design tokens:
+   Colors  — warm ivory background, kumkum maroon primary,
+             turmeric gold accent, deep ink text, soft sage
+             for completion states.
+   Type    — Yatra One (devotional display, used sparingly for
+             the brand mark only), Lora (section headings,
+             warm serif, comfortable for older eyes), Mukta
+             Vaani (UI + body, strong multi-script legibility
+             for English + Telugu).
+   Layout  — asymmetric hero, quiet card system with a colour
+             band per pooja rather than one repeated shadow.
+   ============================================================ */
+
+:root {
+  /* Color */
+  --bg: #FBF6EC;
+  --bg-alt: #F3E9D7;
+  --surface: #FFFFFF;
+  --maroon: #7A2331;
+  --maroon-dark: #591724;
+  --gold: #C9862A;
+  --gold-light: #E8B860;
+  --ink: #2B1810;
+  --ink-soft: #6B5744;
+  --sage: #4A6B4D;
+  --line: #E4D5BE;
+  --shadow-color: 27, 16, 8;
+
+  /* Type */
+  --font-display: 'Yatra One', cursive;
+  --font-heading: 'Lora', serif;
+  --font-body: 'Mukta Vaani', 'Noto Sans Telugu', sans-serif;
+
+  /* Layout */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 26px;
+  --container: 1180px;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 { font-family: var(--font-heading); color: var(--maroon-dark); margin: 0 0 .5em; line-height: 1.25; }
+p { margin: 0 0 1em; color: var(--ink-soft); }
+a { color: inherit; }
+button { font-family: var(--font-body); cursor: pointer; }
+ul { list-style: none; margin: 0; padding: 0; }
+.hidden { display: none !important; }
+
+:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5em;
+  padding: .8em 1.6em;
+  border-radius: 999px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary { background: var(--maroon); color: #fff; box-shadow: 0 8px 20px -8px rgba(122,35,49,.55); }
+.btn-primary:hover { background: var(--maroon-dark); }
+.btn-large { padding: 1em 2.2em; font-size: 1.1rem; }
+.btn-outline { background: transparent; border: 1.5px solid var(--maroon); color: var(--maroon); width: 100%; margin-top: 1.5rem; }
+.btn-outline:hover { background: var(--maroon); color: #fff; }
+.btn-ghost { background: var(--bg-alt); color: var(--ink); }
+.btn-ghost:hover { background: var(--line); }
+.btn-icon { gap: .4em; }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar {
+  position: sticky; top: 0; z-index: 40;
+  background: rgba(251, 246, 236, 0.92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.navbar-inner {
+  max-width: var(--container); margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: .85rem 1.5rem;
+}
+.brand { display: flex; align-items: center; gap: .5rem; text-decoration: none; }
+.brand-mark { font-size: 1.6rem; }
+.brand-name { font-family: var(--font-display); font-size: 1.4rem; color: var(--maroon); }
+.nav-links { display: flex; gap: 1.8rem; }
+.nav-links a { text-decoration: none; font-weight: 600; font-size: .96rem; color: var(--ink-soft); padding: .3rem 0; border-bottom: 2px solid transparent; }
+.nav-links a:hover { color: var(--maroon); border-color: var(--gold); }
+.navbar-actions { display: flex; align-items: center; gap: 1rem; }
+
+.lang-switch { display: flex; border: 1.5px solid var(--line); border-radius: 999px; overflow: hidden; }
+.lang-btn { border: none; background: transparent; padding: .4rem .9rem; font-size: .85rem; font-weight: 700; color: var(--ink-soft); }
+.lang-btn.active { background: var(--maroon); color: #fff; }
+
+.hamburger { display: none; flex-direction: column; gap: 4px; background: none; border: none; padding: .4rem; }
+.hamburger span { width: 22px; height: 2px; background: var(--maroon-dark); border-radius: 2px; }
+
+@media (max-width: 880px) {
+  .nav-links {
+    position: absolute; top: 100%; left: 0; right: 0;
+    background: var(--surface); flex-direction: column; gap: 0;
+    max-height: 0; overflow: hidden; border-bottom: 1px solid var(--line);
+    transition: max-height .25s ease;
+  }
+  .nav-links.open { max-height: 400px; }
+  .nav-links a { padding: .9rem 1.5rem; border-bottom: 1px solid var(--bg-alt); }
+  .hamburger { display: flex; }
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero { padding: 3.5rem 1.5rem 2rem; }
+.hero-inner {
+  max-width: var(--container); margin: 0 auto;
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 2.5rem; align-items: center;
+}
+.hero-logo { font-family: var(--font-display); color: var(--gold); font-size: 1.3rem; margin: 0 0 .6rem; }
+.hero-tagline { font-size: clamp(2.2rem, 4vw, 3.2rem); margin-bottom: .6rem; }
+.hero-desc { font-size: 1.15rem; max-width: 46ch; margin-bottom: 1.8rem; }
+.hero-art { display: flex; justify-content: center; }
+.temple-svg { width: 100%; max-width: 380px; }
+
+@media (max-width: 880px) {
+  .hero-inner { grid-template-columns: 1fr; text-align: center; }
+  .hero-desc { margin-left: auto; margin-right: auto; }
+  .hero-art { order: -1; max-width: 240px; margin: 0 auto; }
+}
+
+/* ============================================================
+   SEARCH
+   ============================================================ */
+.search-section { max-width: 720px; margin: 0 auto 3rem; padding: 0 1.5rem; position: relative; }
+.search-wrap {
+  display: flex; align-items: center; gap: .7rem;
+  background: var(--surface); border: 1.5px solid var(--line);
+  border-radius: 999px; padding: .9rem 1.4rem;
+  box-shadow: 0 10px 30px -18px rgba(var(--shadow-color), .4);
+}
+.search-icon { font-size: 1rem; opacity: .7; }
+.search-input { border: none; outline: none; background: transparent; flex: 1; font-size: 1rem; font-family: var(--font-body); color: var(--ink); }
+.search-results {
+  position: absolute; left: 1.5rem; right: 1.5rem; top: calc(100% - 8px);
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
+  box-shadow: 0 20px 40px -20px rgba(var(--shadow-color), .5);
+  padding: .5rem; z-index: 20; max-height: 360px; overflow-y: auto;
+}
+.search-result-item { display: flex; gap: .8rem; align-items: center; padding: .7rem .8rem; border-radius: var(--radius-sm); text-decoration: none; color: var(--ink); }
+.search-result-item:hover { background: var(--bg-alt); }
+.search-result-item .sri { font-size: 1.4rem; }
+.search-result-item .srtitle { font-weight: 700; }
+.search-result-item .srmeta { font-size: .85rem; color: var(--ink-soft); }
+.search-empty { padding: 1rem; text-align: center; color: var(--ink-soft); }
+
+/* ============================================================
+   SECTIONS (generic)
+   ============================================================ */
+.section { max-width: var(--container); margin: 0 auto; padding: 3rem 1.5rem; }
+.section-alt { background: var(--bg-alt); max-width: none; }
+.section-alt > * { max-width: var(--container); margin-left: auto; margin-right: auto; }
+.section-head { max-width: 640px; margin-bottom: 2.2rem; }
+.section-head h2 { font-size: clamp(1.7rem, 3vw, 2.3rem); }
+.section-head p { font-size: 1.05rem; }
+.empty-msg { color: var(--ink-soft); font-style: italic; }
+
+/* ============================================================
+   POOJA CARDS
+   ============================================================ */
+.pooja-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 1.4rem;
+}
+.pooja-card {
+  position: relative;
+  background: var(--surface);
+  border-radius: var(--radius-md);
+  padding: 1.6rem 1.4rem 1.4rem;
+  border-top: 5px solid var(--card-accent, var(--maroon));
+  box-shadow: 0 14px 30px -20px rgba(var(--shadow-color), .5);
+  cursor: pointer;
+  transition: transform .18s ease, box-shadow .18s ease;
+  text-align: left;
+}
+.pooja-card:hover { transform: translateY(-4px); box-shadow: 0 20px 36px -18px rgba(var(--shadow-color), .5); }
+.pooja-card-top { display: flex; justify-content: space-between; align-items: flex-start; }
+.pooja-medallion {
+  width: 56px; height: 56px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.7rem;
+  background: color-mix(in srgb, var(--card-accent, var(--maroon)) 14%, white);
+  border: 1.5px solid color-mix(in srgb, var(--card-accent, var(--maroon)) 40%, white);
+}
+.pooja-card h3 { font-size: 1.2rem; margin: 1rem 0 .3rem; }
+.pooja-card .tagline { font-size: .9rem; color: var(--gold); font-weight: 700; margin-bottom: .4rem; }
+.pooja-card .desc { font-size: .92rem; margin-bottom: 0; }
+
+.fav-btn {
+  background: var(--bg-alt); border: 1px solid var(--line);
+  width: 38px; height: 38px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.15rem; color: var(--maroon); flex-shrink: 0;
+}
+.fav-btn.active { background: var(--maroon); color: #fff; border-color: var(--maroon); }
+
+/* ============================================================
+   STORY & MANTRA GRIDS
+   ============================================================ */
+.story-grid, .mantra-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); gap: 1.3rem;
+}
+.story-card, .mantra-card {
+  background: var(--surface); border-radius: var(--radius-md);
+  padding: 1.4rem; border: 1px solid var(--line);
+}
+.story-card h3, .mantra-card h4 { font-size: 1.1rem; margin-bottom: .4rem; }
+.story-card .story-snippet { font-size: .92rem; }
+.story-card .story-actions, .mantra-actions { display: flex; gap: .6rem; margin-top: .8rem; flex-wrap: wrap; }
+.mantra-card .mantra-text { font-family: var(--font-heading); font-size: 1.05rem; color: var(--maroon-dark); margin-bottom: .4rem; }
+.mantra-card .mantra-meaning { font-size: .88rem; }
+.mini-btn {
+  border: 1px solid var(--line); background: var(--bg-alt); border-radius: 999px;
+  padding: .4rem .9rem; font-size: .82rem; font-weight: 600; color: var(--ink);
+}
+.mini-btn:hover { background: var(--line); }
+
+/* ============================================================
+   LEARN TOGETHER
+   ============================================================ */
+.learn-together { padding: 1rem 1.5rem 3.5rem; }
+.learn-card {
+  max-width: var(--container); margin: 0 auto;
+  background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-dark) 100%);
+  color: #fff; border-radius: var(--radius-lg);
+  padding: 2.4rem; display: flex; gap: 1.6rem; align-items: center;
+}
+.learn-icon { font-size: 3.2rem; flex-shrink: 0; }
+.learn-card h2 { color: #fff; }
+.learn-msg { color: var(--gold-light); font-weight: 700; font-size: 1.1rem; margin-bottom: .5rem; }
+.learn-sub { color: rgba(255,255,255,.85); margin-bottom: 0; }
+@media (max-width: 640px) { .learn-card { flex-direction: column; text-align: center; } }
+
+/* ============================================================
+   ABOUT
+   ============================================================ */
+.about-card { max-width: 780px; margin: 0 auto 1.6rem; text-align: center; }
+.disclaimer-box {
+  max-width: 780px; margin: 0 auto;
+  display: flex; gap: .8rem; align-items: flex-start;
+  background: var(--bg-alt); border-left: 4px solid var(--gold);
+  border-radius: var(--radius-sm); padding: 1rem 1.3rem;
+}
+.disclaimer-box p { margin: 0; font-size: .92rem; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer { background: var(--maroon-dark); color: rgba(255,255,255,.85); padding: 2.4rem 1.5rem; }
+.footer-inner { max-width: var(--container); margin: 0 auto; text-align: center; }
+.footer-brand { font-family: var(--font-display); font-size: 1.3rem; color: #fff; margin-bottom: .3rem; }
+.footer-brand p { font-family: var(--font-body); font-size: .85rem; color: rgba(255,255,255,.7); margin: .2rem 0 1rem; }
+.footer-disclaimer { font-size: .8rem; max-width: 640px; margin: 0 auto; color: rgba(255,255,255,.6); }
+
+/* ============================================================
+   DETAIL OVERLAY (Pooja Details Page)
+   ============================================================ */
+.detail-overlay {
+  position: fixed; inset: 0; z-index: 100;
+  background: var(--bg);
+  overflow-y: auto;
+}
+.detail-panel { max-width: 820px; margin: 0 auto; padding: 1.2rem 1.5rem 4rem; }
+.detail-header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .6rem 0 1.2rem; }
+.icon-btn { background: none; border: none; font-weight: 700; color: var(--maroon); font-size: .95rem; display: flex; align-items: center; gap: .3rem; }
+.detail-title-wrap { display: flex; align-items: center; gap: .7rem; flex: 1; justify-content: center; text-align: center; }
+.detail-icon { font-size: 1.8rem; }
+.detail-title-wrap h2 { margin: 0; font-size: 1.4rem; }
+
+.detail-tabs {
+  display: flex; gap: .4rem; overflow-x: auto; border-bottom: 1.5px solid var(--line);
+  margin-bottom: 1.6rem; padding-bottom: 2px;
+}
+.tab-btn {
+  background: none; border: none; padding: .8rem 1rem; font-weight: 700; font-size: .95rem;
+  color: var(--ink-soft); border-bottom: 3px solid transparent; white-space: nowrap;
+}
+.tab-btn.active { color: var(--maroon); border-color: var(--gold); }
+
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* Preparation / checklist */
+.prep-progress { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.4rem; font-size: .9rem; color: var(--ink-soft); font-weight: 600; }
+.prep-progress-bar, .step-progress-bar { flex: 1; height: 8px; background: var(--line); border-radius: 999px; overflow: hidden; }
+.prep-progress-fill, .step-progress-fill { height: 100%; background: var(--sage); width: 0%; transition: width .3s ease; }
+.step-progress-fill { background: var(--gold); }
+.step-progress { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.2rem; font-size: .9rem; color: var(--ink-soft); font-weight: 700; }
+
+.checklist { display: flex; flex-direction: column; gap: .6rem; }
+.checklist li {
+  display: flex; align-items: center; gap: .8rem;
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-sm);
+  padding: .8rem 1rem; font-size: 1rem;
+}
+.checklist li.checked { background: color-mix(in srgb, var(--sage) 10%, white); border-color: var(--sage); }
+.checklist li.checked span.item-label { text-decoration: line-through; color: var(--ink-soft); }
+.checklist input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--sage); flex-shrink: 0; }
+
+/* Steps */
+.step-card {
+  background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius-md);
+  padding: 1.8rem; margin-bottom: 1.2rem; min-height: 140px;
+}
+.step-card h3 { font-size: 1.3rem; }
+.step-card p { font-size: 1.08rem; color: var(--ink); margin-bottom: 0; }
+.step-controls { display: flex; gap: .7rem; }
+.step-controls .btn { flex: 1; }
+.pooja-mode-btn { display: flex; }
+
+/* Katha */
+.katha-actions { display: flex; gap: .7rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+.katha-story { font-size: 1.08rem; white-space: pre-line; }
+.katha-note { font-size: .85rem; color: var(--gold); font-style: italic; }
+.katha-simple {
+  background: var(--bg-alt); border-left: 4px solid var(--sage);
+  border-radius: var(--radius-sm); padding: 1.1rem 1.3rem; margin-top: 1rem;
+}
+.katha-simple h4 { color: var(--sage); font-size: 1rem; margin-bottom: .4rem; }
+.katha-simple p { margin: 0; }
+
+/* Mantra list inside detail */
+#detailMantraList .mantra-card { margin-bottom: 1rem; }
+
+@media (max-width: 640px) {
+  .step-controls { flex-wrap: wrap; }
+  .step-controls .btn { min-width: 100%; order: 3; }
+  .step-controls #stepPrevBtn { order: 1; min-width: 47%; }
+  .step-controls #stepListenBtn { order: 2; min-width: 47%; }
+}
+
+/* ============================================================
+   POOJA MODE — distraction-free, large text for elderly users
+   ============================================================ */
+.pooja-mode {
+  position: fixed; inset: 0; z-index: 200;
+  background: var(--maroon-dark);
+  color: #fff;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+.pooja-mode-exit {
+  position: absolute; top: 1.4rem; right: 1.4rem;
+  background: rgba(255,255,255,.12); border: none; color: #fff;
+  padding: .6rem 1.1rem; border-radius: 999px; font-weight: 700; font-size: .95rem;
+}
+.pooja-mode-content { max-width: 720px; }
+.pooja-mode-title { font-family: var(--font-heading); font-size: 1.4rem; color: var(--gold-light); margin-bottom: .3rem; }
+.pooja-mode-progress { font-weight: 700; letter-spacing: .02em; color: rgba(255,255,255,.75); margin-bottom: 1.6rem; }
+.pooja-mode-text { font-size: clamp(1.6rem, 4vw, 2.4rem); line-height: 1.5; font-weight: 600; }
+.pooja-mode-controls { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; justify-content: center; }
+.pm-btn {
+  background: rgba(255,255,255,.12); border: 1.5px solid rgba(255,255,255,.3); color: #fff;
+  padding: 1rem 1.8rem; border-radius: 999px; font-size: 1.1rem; font-weight: 700;
+}
+.pm-btn:hover { background: rgba(255,255,255,.22); }
+.pm-btn-accent { background: var(--gold); border-color: var(--gold); color: var(--maroon-dark); }
+.pm-btn-accent:hover { background: var(--gold-light); }
+
+/* ============================================================
+   TOAST
+   ============================================================ */
+.toast {
+  position: fixed; bottom: 1.6rem; left: 50%; transform: translateX(-50%);
+  background: var(--ink); color: #fff; padding: .8rem 1.4rem; border-radius: 999px;
+  font-size: .92rem; font-weight: 600; z-index: 300; box-shadow: 0 12px 30px -12px rgba(0,0,0,.5);
+  animation: toast-in .2s ease;
+}
+@keyframes toast-in { from { opacity: 0; transform: translate(-50%, 10px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+/* ============================================================
+   Reduced motion
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+/* ============================================================
+   Telugu-specific type adjustment — Mukta Vaani covers Latin;
+   Telugu glyphs fall back to the OS/Noto Telugu font, so bump
+   line-height slightly for that script's taller conjuncts.
+   ============================================================ */
+html[data-lang="te"] body { line-height: 1.75; }
+html[data-lang="te"] .pooja-mode-text { line-height: 1.7; }

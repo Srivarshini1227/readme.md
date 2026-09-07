@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en" data-lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PoojaSetu — Tradition Made Simple</title>
+<meta name="description" content="PoojaSetu — your simple digital companion for poojas, stories, mantras and traditional rituals.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛕</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Lora:ital,wght@0,500;0,600;0,700;1,500&family=Mukta+Vaani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<header class="navbar" id="navbar">
+  <div class="navbar-inner">
+    <a href="#home" class="brand" data-nav>
+      <span class="brand-mark" aria-hidden="true">🛕</span>
+      <span class="brand-name">PoojaSetu</span>
+    </a>
+
+    <nav class="nav-links" id="navLinks">
+      <a href="#home" data-nav data-i18n="navHome">Home</a>
+      <a href="#poojas" data-nav data-i18n="navPoojas">Poojas</a>
+      <a href="#stories" data-nav data-i18n="navStories">Stories</a>
+      <a href="#mantras" data-nav data-i18n="navMantras">Mantras</a>
+      <a href="#favorites" data-nav data-i18n="navFavorites">Favorites</a>
+      <a href="#about" data-nav data-i18n="navAbout">About</a>
+    </nav>
+
+    <div class="navbar-actions">
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="lang-btn active" data-lang-btn="en">EN</button>
+        <button type="button" class="lang-btn" data-lang-btn="te">తెలుగు</button>
+      </div>
+      <button type="button" class="hamburger" id="hamburgerBtn" aria-label="Menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="mainContent">
+
+  <!-- ================= HERO ================= -->
+  <section class="hero" id="home">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="hero-logo"><span aria-hidden="true">🛕</span> PoojaSetu</p>
+        <h1 class="hero-tagline" data-i18n="logoTagline">Tradition Made Simple</h1>
+        <p class="hero-desc" data-i18n="heroDesc">Your simple companion for poojas, stories, mantras and traditional rituals.</p>
+        <a href="#poojas" class="btn btn-primary btn-large" data-nav data-i18n="exploreBtn">Explore Poojas</a>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <!-- Layered temple-arch / gopuram illustration, drawn once and reused as a quiet motif -->
+        <svg viewBox="0 0 480 480" class="temple-svg">
+          <defs>
+            <linearGradient id="archGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#C9862A"/>
+              <stop offset="100%" stop-color="#7A2331"/>
+            </linearGradient>
+          </defs>
+          <circle cx="240" cy="230" r="200" fill="url(#archGrad)" opacity="0.09"/>
+          <path d="M240 40 L270 95 L210 95 Z" fill="#C9862A" opacity="0.9"/>
+          <rect x="150" y="95" width="180" height="26" rx="3" fill="#7A2331"/>
+          <path d="M175 121 Q175 190 175 240 L175 400 L205 400 L205 245 Q205 190 205 121 Z" fill="#7A2331" opacity="0.85"/>
+          <path d="M305 121 Q305 190 305 240 L305 400 L275 400 L275 245 Q275 190 275 121 Z" fill="#7A2331" opacity="0.85"/>
+          <path d="M175 400 A65 90 0 0 0 305 400 Z" fill="#FBF6EC"/>
+          <path d="M175 400 A65 90 0 0 0 305 400" fill="none" stroke="#C9862A" stroke-width="6"/>
+          <circle cx="240" cy="150" r="10" fill="#FBF6EC"/>
+          <g opacity="0.55">
+            <circle cx="90" cy="330" r="4" fill="#C9862A"/>
+            <circle cx="120" cy="360" r="3" fill="#C9862A"/>
+            <circle cx="380" cy="340" r="4" fill="#C9862A"/>
+            <circle cx="360" cy="370" r="3" fill="#C9862A"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SEARCH ================= -->
+  <section class="search-section">
+    <div class="search-wrap">
+      <span class="search-icon" aria-hidden="true">🔍</span>
+      <input type="search" id="searchInput" class="search-input" data-i18n-placeholder="searchPlaceholder" placeholder="Search poojas, stories or mantras…" autocomplete="off">
+    </div>
+    <div id="searchResults" class="search-results hidden"></div>
+  </section>
+
+  <!-- ================= EXPLORE POOJAS ================= -->
+  <section class="section" id="poojas">
+    <div class="section-head">
+      <h2 data-i18n="exploreTitle">Explore Poojas</h2>
+      <p data-i18n="exploreSub">Pick a pooja to see what you need, the steps to follow and the story behind it.</p>
+    </div>
+    <div class="pooja-grid" id="poojaGrid"><!-- injected by app.js --></div>
+  </section>
+
+  <!-- ================= STORIES ================= -->
+  <section class="section section-alt" id="stories">
+    <div class="section-head">
+      <h2 data-i18n="storiesTitle">Pooja Stories (Kathas)</h2>
+      <p data-i18n="storiesSub">Every festival carries a story. Read it, listen to it, or get a simple version.</p>
+    </div>
+    <div class="story-grid" id="storyGrid"><!-- injected by app.js --></div>
+  </section>
+
+  <!-- ================= MANTRAS ================= -->
+  <section class="section" id="mantras">
+    <div class="section-head">
+      <h2 data-i18n="mantrasTitle">Mantras</h2>
+      <p data-i18n="mantrasSub">Simple mantras with meaning, for every pooja.</p>
+    </div>
+    <div class="mantra-grid" id="mantraGrid"><!-- injected by app.js --></div>
+  </section>
+
+  <!-- ================= LEARN TOGETHER ================= -->
+  <section class="learn-together">
+    <div class="learn-card">
+      <div class="learn-icon" aria-hidden="true">👨‍👩‍👧‍👦</div>
+      <div class="learn-text">
+        <h2 data-i18n="learnTogetherTitle">Learn Together</h2>
+        <p class="learn-msg" data-i18n="learnTogetherMsg">Discover traditions together with your family.</p>
+        <p class="learn-sub" data-i18n="learnTogetherSub">Sit with your grandparents, kids or friends — read a katha aloud, tick off pooja items together, or just listen to a mantra as a family.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FAVORITES ================= -->
+  <section class="section" id="favorites">
+    <div class="section-head">
+      <h2 data-i18n="favTitle">Your Favorites</h2>
+      <p data-i18n="favSub">The poojas and stories you've saved for quick access.</p>
+    </div>
+    <div class="pooja-grid" id="favGrid"><!-- injected by app.js --></div>
+    <p class="empty-msg hidden" id="favEmptyMsg" data-i18n="favEmpty">Nothing saved yet. Tap the ♡ on any pooja to save it here.</p>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section class="section about-section" id="about">
+    <div class="about-card">
+      <h2 data-i18n="aboutTitle">Why PoojaSetu?</h2>
+      <p data-i18n="aboutBody">Many traditional poojas are still followed by families, but younger generations may not always know the correct procedure, required items or stories behind them. PoojaSetu brings these traditions together in one simple digital platform.</p>
+    </div>
+    <div class="disclaimer-box">
+      <span aria-hidden="true">ℹ️</span>
+      <p data-i18n="disclaimer">Pooja procedures and traditions may vary by region, family and tradition. Please follow the practices recommended by your family or spiritual guide.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span aria-hidden="true">🛕</span> PoojaSetu
+      <p data-i18n="footerTag">A digital bridge to tradition.</p>
+    </div>
+    <p class="footer-disclaimer" data-i18n="disclaimer">Pooja procedures and traditions may vary by region, family and tradition. Please follow the practices recommended by your family or spiritual guide.</p>
+  </div>
+</footer>
+
+<!-- ================= POOJA DETAIL OVERLAY ================= -->
+<div class="detail-overlay hidden" id="detailOverlay" role="dialog" aria-modal="true">
+  <div class="detail-panel">
+    <header class="detail-header">
+      <button type="button" class="icon-btn" id="detailBackBtn" data-i18n="backBtn" aria-label="Back">← <span data-i18n="backBtn">Back</span></button>
+      <div class="detail-title-wrap">
+        <span class="detail-icon" id="detailIcon">🛕</span>
+        <h2 id="detailTitle">Pooja Name</h2>
+      </div>
+      <button type="button" class="fav-btn" id="detailFavBtn" aria-label="Save to favorites">♡</button>
+    </header>
+
+    <nav class="detail-tabs" id="detailTabs">
+      <button type="button" class="tab-btn active" data-tab="prep" data-i18n="prepTab">Preparation</button>
+      <button type="button" class="tab-btn" data-tab="steps" data-i18n="stepsTab">Step-by-Step</button>
+      <button type="button" class="tab-btn" data-tab="katha" data-i18n="kathaTab">Katha</button>
+      <button type="button" class="tab-btn" data-tab="mantra" data-i18n="mantraTab">Mantras</button>
+    </nav>
+
+    <div class="detail-body">
+      <!-- Preparation tab -->
+      <div class="tab-pane active" id="pane-prep">
+        <div class="prep-progress">
+          <div class="prep-progress-bar"><div class="prep-progress-fill" id="prepProgressFill"></div></div>
+          <span id="prepProgressLabel">0 / 0 <span data-i18n="itemsProgress">items ready</span></span>
+        </div>
+        <h3 data-i18n="itemsNeeded">Items you'll need</h3>
+        <ul class="checklist" id="checklist"><!-- injected --></ul>
+      </div>
+
+      <!-- Steps tab -->
+      <div class="tab-pane" id="pane-steps">
+        <div class="step-progress">
+          <div class="step-progress-bar"><div class="step-progress-fill" id="stepProgressFill"></div></div>
+          <span id="stepProgressLabel">Step 1 of 8</span>
+        </div>
+        <div class="step-card">
+          <h3 id="stepTitle">Step title</h3>
+          <p id="stepText">Step instruction text goes here.</p>
+        </div>
+        <div class="step-controls">
+          <button type="button" class="btn btn-ghost" id="stepPrevBtn" data-i18n="prevBtn">Previous</button>
+          <button type="button" class="btn btn-ghost btn-icon" id="stepListenBtn"><span aria-hidden="true">🔊</span> <span data-i18n="listenBtn">Listen</span></button>
+          <button type="button" class="btn btn-primary" id="stepNextBtn" data-i18n="nextBtn">Next</button>
+        </div>
+        <button type="button" class="btn btn-outline pooja-mode-btn" id="enterPoojaModeBtn">
+          <span aria-hidden="true">🛕</span> <span data-i18n="enterPoojaMode">Enter Pooja Mode</span>
+        </button>
+      </div>
+
+      <!-- Katha tab -->
+      <div class="tab-pane" id="pane-katha">
+        <h3 id="kathaTitle">Katha title</h3>
+        <div class="katha-actions">
+          <button type="button" class="btn btn-ghost btn-icon" id="kathaListenBtn"><span aria-hidden="true">🔊</span> <span data-i18n="listenBtn">Listen</span></button>
+          <button type="button" class="btn btn-ghost btn-icon" id="kathaExplainBtn"><span aria-hidden="true">🤖</span> <span data-i18n="explainSimply">Explain Simply</span></button>
+        </div>
+        <p class="katha-note hidden" id="teluguNote" data-i18n="teluguComingSoon"></p>
+        <p class="katha-story" id="kathaStory">Story text…</p>
+        <div class="katha-simple hidden" id="kathaSimpleBox">
+          <h4 data-i18n="simpleVersion">Simple version</h4>
+          <p id="kathaSimpleText"></p>
+        </div>
+      </div>
+
+      <!-- Mantras tab -->
+      <div class="tab-pane" id="pane-mantra">
+        <div id="detailMantraList"><!-- injected --></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= POOJA MODE (distraction-free) ================= -->
+<div class="pooja-mode hidden" id="poojaMode" role="dialog" aria-modal="true">
+  <button type="button" class="pooja-mode-exit" id="poojaModeExit" aria-label="Exit Pooja Mode">✕ <span data-i18n="exitPoojaMode">Exit</span></button>
+  <div class="pooja-mode-content">
+    <p class="pooja-mode-title"><span id="pmIcon">🛕</span> <span id="pmName">Pooja Name</span></p>
+    <p class="pooja-mode-progress" id="pmProgress">Step 3 of 8</p>
+    <p class="pooja-mode-text" id="pmText">Current instruction in large readable text.</p>
+  </div>
+  <div class="pooja-mode-controls">
+    <button type="button" class="pm-btn" id="pmPrevBtn">⬅ <span data-i18n="prevBtn">Previous</span></button>
+    <button type="button" class="pm-btn pm-btn-accent" id="pmListenBtn">🔊 <span data-i18n="listenBtn">Listen</span></button>
+    <button type="button" class="pm-btn" id="pmNextBtn"><span data-i18n="nextBtn">Next</span> ➡</button>
+  </div>
+</div>
+
+<div class="toast hidden" id="toast"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
