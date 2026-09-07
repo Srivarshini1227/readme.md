@@ -374,24 +374,67 @@
     }
   });
 
-  /* ---------------- 6. TEXT-TO-SPEECH ---------------- */
+  /* ---------------- 6. TEXT-TO-SPEECH ----------------
+     Two real-world gotchas handled here:
+     1. Chrome loads its voice list asynchronously, so the very
+        first click right after page load can find an empty list.
+        We wait for 'voiceschanged' once, then retry.
+     2. Most desktop OSes (and many phones) simply have NO Telugu
+        voice installed. If we force utter.lang="te-IN" with no
+        matching voice, some engines stay silent instead of
+        falling back — so we only set lang to "te-IN" when a
+        matching voice actually exists; otherwise we let the
+        default voice read it (audible, just accented) and tell
+        the user why via a one-time toast.
+  ------------------------------------------------------------ */
+  let voicesReady = speechSynthesis.getVoices ? speechSynthesis.getVoices().length > 0 : false;
+  let teluguVoiceWarningShown = false;
+
+  function getVoicesAsync(callback) {
+    let voices = speechSynthesis.getVoices();
+    if (voices.length) { callback(voices); return; }
+    // Not loaded yet — wait once for the browser to populate the list.
+    const onReady = () => {
+      speechSynthesis.removeEventListener("voiceschanged", onReady);
+      voicesReady = true;
+      callback(speechSynthesis.getVoices());
+    };
+    speechSynthesis.addEventListener("voiceschanged", onReady);
+    // Safety net: some browsers never fire the event at all.
+    setTimeout(() => { if (!voicesReady) { speechSynthesis.removeEventListener("voiceschanged", onReady); callback(speechSynthesis.getVoices()); } }, 600);
+  }
+
   function speak(text) {
     if (!("speechSynthesis" in window)) {
       showToast(state.lang === "en" ? "Voice playback isn't supported on this device." : "ఈ పరికరంలో వాయిస్ ప్లేబ్యాక్ మద్దతు లేదు.");
       return;
     }
     speechSynthesis.cancel();
-    const utter = new SpeechSynthesisUtterance(text);
-    utter.lang = state.lang === "te" ? "te-IN" : "en-IN";
-    utter.rate = 0.92;
-    const voices = speechSynthesis.getVoices();
-    const match = voices.find(v => v.lang === utter.lang) || voices.find(v => v.lang.startsWith(state.lang));
-    if (match) utter.voice = match;
-    speechSynthesis.speak(utter);
-  }
-  // Warm up voice list (some browsers load it asynchronously)
-  if ("speechSynthesis" in window) {
-    speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+
+    getVoicesAsync((voices) => {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.rate = 0.92;
+
+      if (state.lang === "te") {
+        const teluguVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith("te"));
+        if (teluguVoice) {
+          utter.voice = teluguVoice;
+          utter.lang = teluguVoice.lang;
+        } else {
+          // No Telugu voice on this device — don't force te-IN or many
+          // engines go silent. Let the default voice read it instead,
+          // and explain once so it isn't a confusing dead button.
+          if (!teluguVoiceWarningShown) {
+            teluguVoiceWarningShown = true;
+            showToast("ఈ పరికరంలో తెలుగు వాయిస్ లేదు — డిఫాల్ట్ వాయిస్‌తో వినిపిస్తుంది. (Android: Settings → Language & input → Text-to-speech → Install voice data → Telugu)");
+          }
+        }
+      } else {
+        const enVoice = voices.find(v => v.lang === "en-IN") || voices.find(v => v.lang && v.lang.startsWith("en"));
+        if (enVoice) { utter.voice = enVoice; utter.lang = enVoice.lang; }
+      }
+      speechSynthesis.speak(utter);
+    });
   }
 
   /* ---------------- 7. SEARCH ---------------- */
